@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 
-const Comment = require('../models/comment-model')
+const Comment = require('../models/comment-model').default
 
 const getComments = asyncHandler ( async(req, res) => {
     const comments = await Comment.find();
@@ -10,7 +10,7 @@ const getComments = asyncHandler ( async(req, res) => {
 const getCommentsUser = asyncHandler ( async(req, res) => {
     if (!req.user) {
         res.status(401);
-        throw new Error('Acesso não autorizado, usuário não autenticado.');
+        throw new Error('Acceso no autorizado. Usuario no autenticado.');
     }
 
     const userId = req.params.id;
@@ -21,13 +21,14 @@ const getCommentsUser = asyncHandler ( async(req, res) => {
 } )
 
 const crearComments = asyncHandler ( async(req, res) => {
-    if(!req.body.text){
+    if(!req.body.text || !req.body.title){
         res.status(400);
-        throw new Error( 'Por favor teclea un comentario.' );
+        throw new Error( 'Por favor teclea un comentario con titulo.' );
     }
 
     const comentario = await Comment.create(
         {
+            title : req.body.title,
             text : req.body.text,
             user : req.user.id
         }

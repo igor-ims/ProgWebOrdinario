@@ -1,5 +1,5 @@
-function openForm() {
-    window.open('html/form.html', '_blank');
+function openForoOpc() {
+    window.open('html/foro-opc.html', '_blank');
 }
 
 document.getElementById("formulario").addEventListener("submit", function(event) {

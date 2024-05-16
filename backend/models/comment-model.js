@@ -1,11 +1,15 @@
-const { Timestamp } = require('mongodb');
-const mongoose = require('mongoose');
+import { Timestamp } from 'mongodb';
+import { Schema, model } from 'mongoose';
 
-const commentSchema = mongoose.Schema({
+const commentSchema = Schema({
     user : {
-        type : mongoose.Schema.Types.ObjectId,
+        type : Schema.Types.ObjectId,
         required : true,
         ref : 'User'
+    },
+    title : {
+        type : String,
+        required : [true, 'Por favor teclea un titulo']
     },
     text : {
         type : String,
@@ -13,4 +17,4 @@ const commentSchema = mongoose.Schema({
     }
 }, { timestamps : true })
 
-module.exports = mongoose.model('Comment', commentSchema);
+export default model('Comment', commentSchema);

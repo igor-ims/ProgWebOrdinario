@@ -53,7 +53,7 @@ const login = asyncHandler( async (req, res) => {
 })
 
 const generateToken = (idUsuario) => {
-    return jwt.sign({idUsuario}, process.env.JWT_SECRET, {expiresIn : '30m'});
+    return jwt.sign({idUsuario}, process.env.JWT_SECRET, {expiresIn : '1h'});
 }
 
 const showData = asyncHandler( async (req, res) => {

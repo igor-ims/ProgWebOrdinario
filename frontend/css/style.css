@@ -110,3 +110,9 @@
 .justify-text{
     text-align: justify;
 }
+
+.red-rectangle {
+    background-color: red;
+    color: white;
+    padding: 20px;
+  }
