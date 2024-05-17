@@ -1,14 +1,14 @@
 window.login = async function() {
     try {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+        const correo = document.getElementById('email').value;
+        const contrasena = document.getElementById('contrasena').value;
 
-        const response = await fetch('http://localhost:8000/api/login', {
+        const response = await fetch('http://localhost:8000/api/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email : correo, password : contrasena })
         });
 
         if (!response.ok) {
@@ -16,27 +16,29 @@ window.login = async function() {
         }
 
         const data = await response.json();
-        localStorage.setItem('userId', data.id); // Armazena o ID do usuário no localStorage
-        localStorage.setItem('token', data.token); // Armazena o token no localStorage
-        window.location.href = './foro.html'; // Redireciona para a página de comentários
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('token', data.token);
+        window.location.href = '../html/foro.html';
     } catch (error) {
-        console.error('Erro al login:', error);
+        console.error('Erro ao fazer login:', error);
+        document.getElementById('errorMessage').style.display = 'block';
         document.getElementById('errorMessage').textContent = 'Error: email o contraseña incorrectos.';
     }
 }
 
+
 window.registrar = async function() {
     try {
-        const name = document.getElementById('nome').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('contrasena').value;
+        const nombre = document.getElementById('nombre').value;
+        const correo = document.getElementById('email').value;
+        const contrasena = document.getElementById('contrasena').value;
 
-        const response = await fetch('http://localhost:8000/api/register', {
+        const response = await fetch('http://localhost:8000/api/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password})
+            body: JSON.stringify({name : nombre, email : correo, password : contrasena})
         });
 
         if (!response.ok) {
@@ -44,12 +46,12 @@ window.registrar = async function() {
         }
 
         const data = await response.json();
-        localStorage.setItem('userId', data.id); // Armazena o ID do usuário no localStorage
-        localStorage.setItem('token', data.token); // Armazena o token no localStorage
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('token', data.token);
 
-        // Faz login após o registro bem-sucedido
         login();
     } catch (error) {
         console.error('Error al registrar:', error);
     }
 }
+

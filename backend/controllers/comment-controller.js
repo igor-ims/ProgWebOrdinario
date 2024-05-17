@@ -1,6 +1,8 @@
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
 
-const Comment = require('../models/comment-model').default
+const Comment = require('../models/comment-model');
+const User = require('../models/user-model');
+const mongoose = require('mongoose')
 
 const getComments = asyncHandler ( async(req, res) => {
     const comments = await Comment.find();
@@ -26,16 +28,39 @@ const crearComments = asyncHandler ( async(req, res) => {
         throw new Error( 'Por favor teclea un comentario con titulo.' );
     }
 
+    const user = await User.findById(req.user.id);
+
     const comentario = await Comment.create(
         {
             title : req.body.title,
             text : req.body.text,
-            user : req.user.id
+            user : req.user.id,
+            name : user.name
         }
     )
 
     res.status(201).json(comentario);
 } )
+
+const updateNameAfterUpdatingUser = asyncHandler(async(req, res) =>{
+    try {
+        const comments = await Comment.find({ user: req.params.id });
+
+        if (!comments || comments.length === 0) {
+            res.status(200).json({ message: 'No se encontraron comentarios para este usuario.' });
+            return;
+        }
+
+        await Promise.all(comments.map(async (comment) => {
+            await Comment.findByIdAndUpdate(comment._id, { name: req.body.name }, { new: true });
+        }));
+
+        res.status(200).json({ message: 'Nombres de usuario actualizados en todos los comentarios.' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 
 const updateComment = asyncHandler(async (req, res) => {
     try {
@@ -89,5 +114,6 @@ module.exports = {
     getCommentsUser,
     crearComments,
     updateComment,
-    deleteComment
+    deleteComment,
+    updateNameAfterUpdatingUser
 }

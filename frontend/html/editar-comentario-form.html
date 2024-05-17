@@ -5,25 +5,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../img/guitarra-electrica-para-heavy-metal.png" type="image/x-icon">
-    <title>Foro - Login</title>
+    <title>Editar Comentario</title>
 </head>
-<body class="bg-dark">
+<body class="bg-secondary">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <section class="margen-form">
-                    <h1 class="text-light">Iniciar Sesión</h1>
-                    <form id="loginForm" onsubmit="event.preventDefault(); login();">
+                    <h1 class="text-light">Editar Comentario</h1>
+                    <form id="editCommentForm" onsubmit="event.preventDefault(); submitChanges();">
                         <div class="input-group mb-3">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Correo Electrónico" required>
+                            <input type="text" id="titleInput" class="form-control" placeholder="Título" required>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required>
+                            <textarea id="commentInput" class="form-control" placeholder="Comentario" rows="5" required></textarea>
                         </div>
-                        <input type="submit" value="Iniciar sesión" class="btn btn-primary">
-                        <p id="errorMessage" class="red-rectangle"></p>
+                        <input type="hidden" id="commentId">
+                        <input type="submit" class="btn btn-primary" value="Guardar Cambios">
                     </form>
-                    <p class="text-light mt-3">¿No tiene su cuenta? <a href="./foro-registrar.html">Regístrese</a></p>
                 </section>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -31,9 +30,9 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-    <script src="../js/login.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/editar-comentario.js"></script>
 </body>
 </html>

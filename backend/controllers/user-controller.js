@@ -53,7 +53,7 @@ const login = asyncHandler( async (req, res) => {
 })
 
 const generateToken = (idUsuario) => {
-    return jwt.sign({idUsuario}, process.env.JWT_SECRET, {expiresIn : '1h'});
+    return jwt.sign({idUsuario}, process.env.JWT_SECRET, {expiresIn : '48h'});
 }
 
 const showData = asyncHandler( async (req, res) => {
@@ -66,7 +66,7 @@ const showDataAdmin = asyncHandler(async (req, res) => {
         throw new Error('Apenas administradores pueden accesar.');
     }
 
-    const userId = req.params.id;
+    const userId = req.user.id;
 
     const user = await User.findById(userId);
 
@@ -135,11 +135,46 @@ const registerAdmin = asyncHandler( async (req, res) => {
     })
 })
 
+const updateUser = asyncHandler(async (req, res) => {
+    try {
+        if (!req.user) {
+            res.status(401);
+            throw new Error('Acceso no autorizado, usuario no autenticado.');
+        }
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            res.status(404);
+            throw new Error('El usuario no existe.');
+        }
+
+        const {name, email, password} = req.body;
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id, 
+            {
+                name,
+                email,
+                password: hashedPassword
+            }, 
+            { new: true }
+        );
+
+        res.status(200).json({ updatedUser });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 module.exports = {
     register,
     login,
     showData,
     deleteUser,
     registerAdmin,
-    showDataAdmin
+    showDataAdmin,
+    updateUser
 }

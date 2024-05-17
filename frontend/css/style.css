@@ -49,7 +49,7 @@
     height: 40px;
     width: auto;
     margin-right: 5px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .footer{
@@ -112,7 +112,14 @@
 }
 
 .red-rectangle {
+    margin-top: 20px;
     background-color: red;
     color: white;
     padding: 20px;
+    display: none;
+    border-radius: 10px;
   }
+
+.card-text {
+    text-align: justify;
+}

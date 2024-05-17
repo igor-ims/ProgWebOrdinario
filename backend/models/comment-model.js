@@ -1,20 +1,25 @@
-import { Timestamp } from 'mongodb';
-import { Schema, model } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const User = require('./user-model');
 
-const commentSchema = Schema({
-    user : {
-        type : Schema.Types.ObjectId,
-        required : true,
-        ref : 'User'
+const commentSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
-    title : {
-        type : String,
-        required : [true, 'Por favor teclea un titulo']
+    name: {
+        type: String,
+        required: true
     },
-    text : {
-        type : String,
-        required : [true, 'Por favor teclea un comentario']
+    title: {
+        type: String,
+        required: [true, 'Por favor teclea un titulo']
+    },
+    text: {
+        type: String,
+        required: [true, 'Por favor teclea un comentario']
     }
-}, { timestamps : true })
+}, { timestamps: true });
 
-export default model('Comment', commentSchema);
+module.exports = mongoose.model('Comment', commentSchema);
